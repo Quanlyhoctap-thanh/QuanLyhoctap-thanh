@@ -1,0 +1,8 @@
+{
+  "name": "Remix Trợ Lý Theo Dõi Học Tập Lớp 3A2",
+  "description": "Ứng dụng hỗ trợ giáo viên chủ nhiệm Trường Tiểu học Khánh Bình theo dõi tình hình học tập, chuyên cần, rèn luyện và tiến bộ của học sinh.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
