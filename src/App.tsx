@@ -1,5 +1,7 @@
 import React from 'react';
 import { AppProvider, useApp } from './context/AppContext';
+import { AuthProvider, useAuth } from './context/AuthContext';
+import { AuthScreen } from './components/auth/AuthScreen';
 import { Header } from './components/common/Header';
 import { Sidebar } from './components/common/Sidebar';
 import { DashboardView } from './components/views/DashboardView';
@@ -11,7 +13,8 @@ import { ConductView } from './components/views/ConductView';
 import { CommentsView } from './components/views/CommentsView';
 import { ProgressView } from './components/views/ProgressView';
 import { ReportsView } from './components/views/ReportsView';
-import { CheckCircle2, AlertCircle, Info, Menu, X } from 'lucide-react';
+import { CheckCircle2, AlertCircle, Info, Menu, X, Loader2 } from 'lucide-react';
+import { SchoolLogo } from './components/common/Avatar';
 
 const MainContent: React.FC = () => {
   const { currentView, toast } = useApp();
@@ -94,10 +97,38 @@ const MainContent: React.FC = () => {
   );
 };
 
-export default function App() {
+const AppGate: React.FC = () => {
+  const { isAuthenticated, isLoading } = useAuth();
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-slate-900 flex flex-col items-center justify-center p-4 text-white">
+        <div className="p-3 bg-white/10 rounded-2xl mb-4 border border-white/20">
+          <SchoolLogo className="w-16 h-16 animate-pulse" />
+        </div>
+        <div className="flex items-center gap-2 text-sky-200 text-sm font-medium">
+          <Loader2 className="w-5 h-5 animate-spin text-sky-400" />
+          <span>Đang kiểm tra thông tin đăng nhập...</span>
+        </div>
+      </div>
+    );
+  }
+
+  if (!isAuthenticated) {
+    return <AuthScreen />;
+  }
+
   return (
     <AppProvider>
       <MainContent />
     </AppProvider>
+  );
+};
+
+export default function App() {
+  return (
+    <AuthProvider>
+      <AppGate />
+    </AuthProvider>
   );
 }

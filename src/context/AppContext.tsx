@@ -54,6 +54,10 @@ interface AppContextType {
   exportDataCSV: () => void;
   importDataJSON: (jsonString: string) => boolean;
   resetToDefaultData: () => void;
+  // Supabase State & Modal
+  isSupabaseModalOpen: boolean;
+  openSupabaseModal: () => void;
+  closeSupabaseModal: () => void;
   // Derived Stats
   studentsNeedingAttention: AttentionStudent[];
   latestAttendanceStats: {
@@ -97,6 +101,10 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [selectedStudentId, setSelectedStudentId] = useState<string | null>(null);
   const [selectedMonth, setSelectedMonth] = useState<string>('Tháng 4/2025');
   const [toast, setToast] = useState<{ message: string; type: 'success' | 'info' | 'warning' } | null>(null);
+  const [isSupabaseModalOpen, setIsSupabaseModalOpen] = useState<boolean>(false);
+
+  const openSupabaseModal = () => setIsSupabaseModalOpen(true);
+  const closeSupabaseModal = () => setIsSupabaseModalOpen(false);
 
   // Sync to localStorage
   useEffect(() => {
@@ -518,6 +526,9 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         exportDataCSV,
         importDataJSON,
         resetToDefaultData,
+        isSupabaseModalOpen,
+        openSupabaseModal,
+        closeSupabaseModal,
         studentsNeedingAttention,
         latestAttendanceStats,
         classSubjectAverages,

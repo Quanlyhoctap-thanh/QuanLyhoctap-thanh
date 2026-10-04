@@ -10,6 +10,7 @@ import {
   MessageSquareText,
   TrendingUp,
   FileBarChart2,
+  Database,
 } from 'lucide-react';
 
 interface NavItem {
@@ -20,7 +21,7 @@ interface NavItem {
 }
 
 export const Sidebar: React.FC = () => {
-  const { data, currentView, setCurrentView, setSelectedStudentId, studentsNeedingAttention } = useApp();
+  const { data, currentView, setCurrentView, setSelectedStudentId, studentsNeedingAttention, openSupabaseModal } = useApp();
 
   const navItems: NavItem[] = [
     { id: 'dashboard', label: 'Tổng quan', icon: LayoutDashboard },
@@ -80,12 +81,27 @@ export const Sidebar: React.FC = () => {
         })}
       </nav>
 
-      {/* Class reminder badge in sidebar bottom */}
-      <div className="px-3 pt-3 border-t border-sky-600/60 hidden md:block">
+      {/* Class reminder & Supabase badge in sidebar bottom */}
+      <div className="px-3 pt-3 border-t border-sky-600/60 hidden md:block space-y-2">
+        <button
+          type="button"
+          onClick={openSupabaseModal}
+          className="w-full flex items-center justify-between p-2 rounded-lg bg-emerald-950/40 hover:bg-emerald-900/60 border border-emerald-500/30 text-xs text-emerald-100 transition-colors cursor-pointer text-left group"
+          title="Mở bảng điều khiển đồng bộ Supabase"
+        >
+          <div className="flex items-center gap-2 min-w-0">
+            <Database className="w-4 h-4 text-emerald-400 shrink-0 group-hover:scale-110 transition-transform" />
+            <div className="truncate">
+              <div className="font-semibold text-white leading-tight">Supabase Database</div>
+              <div className="text-[10px] text-emerald-300">Đồng bộ đám mây</div>
+            </div>
+          </div>
+        </button>
+
         <div className="p-2.5 rounded-lg bg-sky-800/60 border border-sky-600/40 text-xs text-sky-100">
           <p className="font-semibold text-white mb-0.5">{data.classSettings.schoolName}</p>
           <p className="text-[11px] leading-relaxed text-sky-200">
-            Năm học {data.classSettings.academicYear}. Dữ liệu lưu an toàn trên máy trình duyệt.
+            Năm học {data.classSettings.academicYear}.
           </p>
         </div>
       </div>
